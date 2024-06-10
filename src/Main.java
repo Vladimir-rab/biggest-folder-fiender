@@ -1,5 +1,6 @@
 import java.io.File;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,16 +11,17 @@ public class Main {
 
 
     }
-    public static long getFolderSize (File folder) {
+
+    public static long getFolderSize(File folder) {
         if (folder.isFile()) {
             return folder.length();
         }
-        long sum = 0;
         File[] files = folder.listFiles();
-        for (File file : files) {
-            sum += getFolderSize(file);
+        if (files == null) {
+            return 0;
         }
-        return sum;
-    }
+        return Arrays.stream(files).mapToLong(file -> getFolderSize(file)).sum();
 
+
+    }
 }
